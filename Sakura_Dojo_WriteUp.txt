@@ -1,0 +1,182 @@
+Task 1 : Introduction
+We first read everything 
+Are you ready to begin? 
+Answer : Let's Go!
+
+Task 2 : TIP-OFF 
+By reading the message we immediatly understand that we need to download the image from the github then use exiftool on it
+And then we see this : 
+
+exiftool sakurapwnedletter.svg 
+ExifTool Version Number         : 12.57
+File Name                       : sakurapwnedletter.svg
+Directory                       : .
+File Size                       : 850 kB
+File Modification Date/Time     : 2023:05:01 12:46:42+02:00
+File Access Date/Time           : 2023:05:01 14:08:43+02:00
+File Inode Change Date/Time     : 2023:05:01 14:08:43+02:00
+File Permissions                : -rwxrw-rw-
+File Type                       : SVG
+File Type Extension             : svg
+MIME Type                       : image/svg+xml
+Xmlns                           : http://www.w3.org/2000/svg
+Image Width                     : 116.29175mm
+Image Height                    : 174.61578mm
+View Box                        : 0 0 116.29175 174.61578
+SVG Version                     : 1.1
+ID                              : svg8
+Version                         : 0.92.5 (2060ec1f9f, 2020-04-08)
+Docname                         : pwnedletter.svg
+Export-filename                 : /home/SakuraSnowAngelAiko/Desktop/pwnedletter.png
+Export-xdpi                     : 96
+Export-ydpi                     : 96
+Metadata ID                     : metadata5
+Work Format                     : image/svg+xml
+Work Type                       : http://purl.org/dc/dcmitype/StillImage
+Work Title                      : 
+
+We see some very interesting information which is : /home/SakuraSnowAngelAiko/Desktop/
+
+What username does the attacker go by? 
+Answer : SakuraSnowAngelAiko
+
+Task 3 : Reconnaissance
+Thanks to the instructions we know that we just need to search for username, there are several online tools out there such as : https://instantusername.com/#/
+
+But i will use sherlock : 
+sherlock SakuraSnowAngelAiko                  
+[*] Checking username SakuraSnowAngelAiko on:
+
+[+] Enjin: https://www.enjin.com/profile/SakuraSnowAngelAiko
+[+] GitHub: https://www.github.com/SakuraSnowAngelAiko
+[+] Reddit: https://www.reddit.com/user/SakuraSnowAngelAiko
+
+We look at each one :
+enjin : The first one is obviously a false positive after checking it
+GitHub : We found him !!!
+Reddit : We'll look at it later
+We see a very interesting repo which is PGP
+A PGP key is a public encryption key. A PGP key can be used to sign and encrypt emails and files. When you create a PGP key, a keypair having a public key and a private key is generated.
+We click on it
+then download the public key
+We then use gpg to get the fingerprint and get the email : 
+gpg --with-fingerprint publickey 
+gpg: WARNING: no command supplied.  Trying to guess what you mean ...
+pub   rsa3072 2021-01-23 [SC] [expired: 2023-01-22]
+uid           SakuraSnowAngel83@protonmail.com
+sub   rsa3072 2021-01-23 [E] [expired: 2023-01-22]
+
+What is the full email address used by the attacker?
+Answer : SakuraSnowAngel83@protonmail.com
+
+
+After that i went looking on several search engines other accounts
+and found in google a twitter account : https://twitter.com/sakuraloveraiko
+
+Great we found the name : Aiko
+But it's not enough, we look at the replies and found out that she introduced herself : 
+
+Aiko
+@SakuraLoverAiko
+·
+Jan 30, 2021
+Silly me, I forgot to introduce myself!
+Hi there! I'm @AikoAbe3!
+
+Of course there is more information, but let's leave that for later. First let's finish this task by answering the last question of this task.
+
+
+What is the attacker's full real name?
+Answer : Aiko Abe
+
+Task 4 : UNVEIL 
+Let's dive in the user github account again :
+We look at the repository and we find ETH, which is very promising
+because we know that the others are just miners so we can ignore them for now and focus on this repository which is an ethereum wallet. We can now answer the first question.
+
+What cryptocurrency does the attacker own a cryptocurrency wallet for?
+Answer : Ethereum
+
+We see that there were a commit before so we click on histroy and look at the update miningscript and we find some crucial information : an ethereum wallet address. We can answer know the second question. 
+
+What is the attacker's cryptocurrency wallet address?
+Answer : 0xa102397dbeeBeFD8cD2F73A89122fCdB53abB6ef
+
+We know that ethereum is a cryptocurrency and we know that cryptocurrency operate in the blockchain so we can find all transactions made by any wallet address. Therefore we use : https://etherscan.io/
+Then input in the search bar the wallet address and we see there are a total of 40 transactions found : https://etherscan.io/txs?a=0xa102397dbeeBeFD8cD2F73A89122fCdB53abB6ef
+We look at the column From and we find : Ethermine. Great we can answer the third question.
+
+What mining pool did the attacker receive payments from on January 23, 2021 UTC?
+Answer : ethermine
+
+Finally if we just click on show all transactions and go to the bottom we see that there are some outgoing transactions and they are USDT which is Tether. We can now answer the last question of this task.
+
+What other cryptocurrency did the attacker exchange with using their cryptocurrency wallet?
+Answer : Tether
+
+Task5 : TAUNT
+We recognize that @AikoAbe3 is the twitter account that we already found earlier. So we go into her twitter acccount again. We can immediatly answer the first question with the handle we got.
+
+What is the attacker's current Twitter handle?
+Answer : @SakuraLoverAiko
+
+Next i just typed the md5 hash on goolge and then i got an image with the url of the website. But actually it was the hint from tryhackme for this question. Anyways so i just bacially to the image yo yandex then i got the url and i added the md5 hash to it so we can answer the question.
+
+
+What is the URL for the location where the attacker saved their WiFi  SSIDs and passwords?
+Answer : deepv2w7p33xa4pwxzwi2ps4j62gfxpyp44ezjbmpttxz3owlsp4ljid.onion/show.php?md5=b2b37b3c106eb3f86e2340a3050968e2
+
+In the hint from tryhackme image we can see in Home Wifi : DK1F-G with
+So we can use a very google OSINT tool for wifi BSSID which is wigle.net
+We click on advanced search, we login then we type the wifi SSID we got in the required box and hit query : https://wigle.net/search?ssid=DK1F-G We then get : 
+SSID: DK1F-G
+BSSID: 84:AF:EC:34:FC:F8
+First Time: 2019-04-24T11:00:00.000Z
+Last Time: 2019-05-02T05:00:00.000Z
+Channel: 11
+Encryption: wpa2
+Quality of Signal: 0
+Address: , 弘前市, 青森県, JP, 036-8207
+We can answer now the last question for this task.
+
+What is the BSSID for the attacker's Home WiFi?
+Answer : 84:AF:EC:34:FC:F8
+
+Task 6 : 
+First we look at the sakura tree, we look at the countries in the world having a sakura tree, so we type in google : countries that has a sakura tree with a lake on the right
+We immediatly see an image similar to the one we have, we click on it : 
+https://www.prestigeonline.com/th/lifestyle/travel/best-places-for-cherry-blossoms-around-the-world-besides-japan-in-spring-2022/
+It says 7 other countries beside Japan has one, great we scroll down and then we immediatly see : Washington, D.C, USA we the monument in the background the exact same we have. We could easily see that it was in washington, anyways. Then we google the closest airport to the monument in washington dc : closest airport to washington dc monument
+We click on this link : https://www.travelmath.com/nearest-airport/Washington+Monument
+We can see that the closest airport is  Ronald Reagan Washington National Airport (DCA / KDCA)
+We can know answer the first question of this task.
+
+What airport is closest to the location the attacker shared a photo from prior to getting on their flight?
+Answer : DCA
+
+Then after looking at the next image, we type in google : Jal first class lounge sakura lounge japan, because we know that she wants to get to japan. We click on this : https://www.jal.co.jp/jp/en/inter/service/lounge/
+We find two different airport with First class lounge and sakura lounge which are : Haneda and Narita airport. So we look at the images of each one of them by typing on google : narita first class lounge entrance image
+We find this image for narita first class lounge : https://knaviation.net/wp-content/uploads/2022/02/JAL-First-Class-Lounge-Tokyo-Narita-2.jpg
+Which is obviously not the one we have. So it must be the other airport. But to be sure let's look at the other airport lounge image : haneda first class lounge entrance image 
+We find this image for haneda first class lounge : 
+https://everybodyhatesatourist.net/wp-content/uploads/2017/07/jal-first-class-lounge-tokyo-haneda-entrance-700x525.jpg
+We then look in wikipedia the 3 digits for the aiport haneda which is Code IATA	: HND
+Great we can answer the question.
+
+What airport did the attacker have their last layover in?
+Answer : HND
+
+Then we continue looking at the next image, which is a map and we want to know what is the name of the lake. We can do that by reproducing the exact same map image using google earth and then finding the lake by clicking on it, and we get it easly : https://earth.google.com/web/search/japan/@37.67293173,139.72976304,666.21817115a,339191.84430588d,35y,8.48901987h,0t,0r/data=CigiJgokCZl1pK6ce0NAEUHXgUEvcENAGaBrFDOeQFPAIVLeDsWQRVPA
+We can now just zoom into the lake till we see it's name : 
+https://earth.google.com/web/search/japan/@37.49121853,140.10047896,511.47336559a,11047.05351844d,35y,8.69809888h,0t,0r/data=CigiJgokCZl1pK6ce0NAEUHXgUEvcENAGaBrFDOeQFPAIVLeDsWQRVPA
+We see the name, so we can answer the question.
+
+What lake can be seen in the map shared by the attacker as they were on their final flight home?
+Answer : Lake Inawashiro
+
+For the last question we must not forget that when we got the BSSID earlier in the task 4 we got the street where the wifi is : https://wigle.net/map?maplat=40.604706600748074&maplon=140.4603438290878&mapzoom=18&netid=84%3Aaf%3Aec%3A34%3Afc%3Af8&coloring=density 
+So by zooming out we can see a park with the name Fujita Kinen Teien very close to his house. So we just need to find the city name of this park which is given to use by google maps : https://www.google.fr/maps/place/Fujita+Memorial+Garden/@40.6048185,140.4604643,18.3z/data=!4m6!3m5!1s0x5f9b01dccd96aaab:0x322b3efbf3b4f108!8m2!3d40.6042254!4d140.4602668!16s%2Fg%2F121pksbk
+And that concludes this amazing room.
+
+What city does the attacker likely consider "home"?
+Answer : Hirosaki
